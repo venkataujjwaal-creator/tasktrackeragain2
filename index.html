@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Task.IT - Free Eisenhower Matrix Task Manager | Prioritize Tasks Effectively</title>
+    <meta name="description" content="Free online Eisenhower Matrix tool to organize tasks by urgency and importance. Works offline as a PWA. Prioritize, schedule, delegate, and delete tasks effectively.">
+    <meta name="keywords" content="eisenhower matrix, task manager, productivity app, time management, priority matrix, urgent important matrix, free task organizer, offline task manager, PWA task app">
+    <meta name="author" content="Ujjwaal Go">
+    <meta name="version" content="V.01">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://trackyourowntime.netlify.app/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trackyourowntime.netlify.app/">
+    <meta property="og:title" content="Task.IT - Free Eisenhower Matrix Task Manager">
+    <meta property="og:description" content="Free online Eisenhower Matrix tool. Organize tasks by urgency and importance. Works offline as a PWA.">
+    <meta property="og:image" content="https://trackyourowntime.netlify.app/icon-512x512.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://trackyourowntime.netlify.app/">
+    <meta property="twitter:title" content="Task.IT - Free Eisenhower Matrix Task Manager">
+    <meta property="twitter:description" content="Free online Eisenhower Matrix tool. Organize tasks by urgency and importance. Works offline as a PWA.">
+    <meta property="twitter:image" content="https://trackyourowntime.netlify.app/icon-512x512.png">
+    
+    <!-- PWA Theme -->
+    <meta name="theme-color" content="#3B82F6">
+    <meta name="msapplication-navbutton-color" content="#3B82F6">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- PWA Display -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="TaskIT">
+    <meta name="application-name" content="TaskIT">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Apple Touch Icon (Critical for iOS) -->
+    <link rel="apple-touch-icon" href="./icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./icon-192x192.png">
+    
+    <!-- Standard Icons -->
+    <link rel="icon" type="image/png" sizes="144x144" href="./icon-144x144.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512x512.png">
+    <link rel="shortcut icon" href="./icon-192x192.png">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Task.IT",
+      "alternateName": "TaskIT Eisenhower Matrix",
+      "url": "https://trackyourowntime.netlify.app/",
+      "description": "Free online Eisenhower Matrix task management tool for prioritizing tasks based on urgency and importance",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Ujjwaal Go"
+      },
+      "browserRequirements": "Requires JavaScript. Modern web browser required.",
+      "permissions": "localStorage"
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg-primary: #0C1713;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.7);
+            --text-placeholder: rgba(255,255,255,0.4);
+            --surface: rgba(255,255,255,0.03);
+            --surface-hover: rgba(255,255,255,0.08);
+            --border: rgba(255,255,255,0.1);
+            --q1-header: #dc2626;
+            --q2-header: #ef4444;
+            --q3-header: #f87171;
+            --q4-header: #fca5a5;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --text-primary: #333333;
+            --text-secondary: rgba(51,51,51,0.7);
+            --text-placeholder: rgba(51,51,51,0.5);
+            --surface: rgba(255,255,255,0.8);
+            --surface-hover: rgba(0,0,0,0.05);
+            --border: rgba(0,0,0,0.1);
+        }
+
+        [data-color="red"] {
+            --q1-header: #dc2626;
+            --q2-header: #ef4444;
+            --q3-header: #f87171;
+            --q4-header: #fca5a5;
+        }
+
+        [data-theme="light"][data-color="red"] {
+            --q1-header: #dc3545;
+            --q2-header: #e85d75;
+            --q3-header: #f48fb1;
+            --q4-header: #ffcdd2;
+        }
+
+        [data-color="yellow"] {
+            --q1-header: #ffeb3b;
+            --q2-header: #ffc107;
+            --q3-header: #ff9800;
+            --q4-header: #ff6f00;
+        }
+
+        [data-theme="light"][data-color="yellow"] {
+            --q1-header: #ffc107;
+            --q2-header: #ffeb3b;
+            --q3-header: #fff176;
+            --q4-header: #fff9c4;
+        }
+
+        [data-color="blue"] {
+            --q1-header: #1e3a8a;
+            --q2-header: #3b82f6;
+            --q3-header: #60a5fa;
+            --q4-header: #93c5fd;
+        }
+
+        [data-theme="light"][data-color="blue"] {
+            --q1-header: #2563eb;
+            --q2-header: #60a5fa;
+            --q3-header: #93c5fd;
+            --q4-header: #dbeafe;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 0;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+            zoom: 0.67;
+        }
+
+        @media (max-width: 768px) and (orientation: portrait) {
+            body {
+                zoom: 1;
+            }
+        }
+
+        @media (min-width: 769px) and (orientation: portrait) {
+            body {
+                zoom: 0.67;
+            }
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .install-banner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #3B82F6, #1E3A8A);
+            color: white;
+            padding: 10px 20px;
+            z-index: 2000;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .install-banner.show {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .install-banner-text {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .install-banner-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .install-btn, .install-dismiss {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .install-btn:hover, .install-dismiss:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .offline-indicator {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ef4444;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 1500;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .offline-indicator.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            gap: 25px;
+            margin-top: 0;
+        }
+
+        .install-banner.show + .container .top-header {
+            margin-top: 60px;
+        }
+
+        .matrix-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, 
+                #10B981 0%, #10B981 25%,
+                #3B82F6 25%, #3B82F6 50%,
+                #F59E0B 50%, #F59E0B 75%,
+                #EF4444 75%, #EF4444 100%);
+            border-radius: 12px;
+            border: 4px solid var(--text-primary);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .matrix-logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: var(--text-primary);
+            transform: translateX(-50%);
+        }
+
+        .matrix-logo::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 4px;
+            background: var(--text-primary);
+            transform: translateY(-50%);
+        }
+
+        .logo-symbols {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .logo-symbol {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .logo-text {
+            font-size: 3.2rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+        }
+
+        .daily-quote {
+            text-align: center;
+            font-style: italic;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin: 15px 0 30px 0;
+            color: var(--text-secondary);
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px 30px 30px;
+            font-size: 1rem;
+            opacity: 0.7;
+            color: var(--text-secondary);
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .matrix-container {
+            flex: 1;
+            padding: 0 30px 30px 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .matrix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+            max-width: 1400px;
+            min-height: 600px;
+        }
+
+        .quadrant {
+            background: var(--surface);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            min-height: 300px;
+        }
+
+        .quadrant-header {
+            padding: 20px 25px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .q1 .quadrant-header { background-color: var(--q1-header); }
+        .q2 .quadrant-header { background-color: var(--q2-header); }
+        .q3 .quadrant-header { background-color: var(--q3-header); }
+        .q4 .quadrant-header { background-color: var(--q4-header); }
+
+        .task-count {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        [data-theme="light"] .task-count {
+            background: rgba(0,0,0,0.15);
+            color: #333;
+            text-shadow: none;
+        }
+
+        .quadrant-info {
+            flex: 1;
+            text-align: center;
+        }
+
+        .quadrant-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .quadrant-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        [data-theme="light"] .quadrant-title,
+        [data-theme="light"] .quadrant-subtitle {
+            color: #333333;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+            font-weight: 700;
+        }
+
+        [data-theme="light"] .q4 .quadrant-title,
+        [data-theme="light"] .q4 .quadrant-subtitle {
+            color: #1a1a1a;
+            font-weight: 800;
+            text-shadow: 0 1px 3px rgba(255,255,255,0.9);
+        }
+
+        .clear-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="light"] .clear-btn {
+            background: rgba(0,0,0,0.15);
+            color: #333;
+        }
+
+        [data-theme="light"] .clear-btn:hover {
+            background: rgba(0,0,0,0.25);
+        }
+
+        [data-theme="light"] .q4 .clear-btn {
+            background: rgba(0,0,0,0.2);
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        [data-theme="light"] .q4 .clear-btn:hover {
+            background: rgba(0,0,0,0.3);
+        }
+
+        .task-container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-list {
+            flex: 1;
+            overflow-y: auto;
+            cursor: text;
+            min-height: 200px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            background: var(--surface);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .task-item.empty-task {
+            background: var(--surface);
+            border: 1px dashed var(--border);
+        }
+
+        .task-item:hover {
+            background: var(--surface-hover);
+        }
+
+        .task-item:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .task-checkbox {
+            margin-right: 12px;
+            margin-top: 4px;
+            cursor: pointer;
+            transform: scale(1.3);
+            accent-color: var(--q1-header);
+            flex-shrink: 0;
+        }
+
+        .task-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-content.has-delete {
+            padding-right: 35px;
+        }
+
+        .task-text {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+            min-height: 28px;
+        }
+
+        .task-text.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .task-text::placeholder {
+            color: var(--text-placeholder);
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(231, 76, 60, 0.8);
+            border: none;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .delete-btn:hover {
+            background: rgba(231, 76, 60, 1);
+            transform: scale(1.1);
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            padding: 20px;
+            color: var(--text-secondary);
+        }
+
+        .theme-switchers {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .install-banner.show ~ .container .theme-switchers {
+            top: 90px;
+        }
+
+        .theme-switcher {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .switcher-btn {
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: var(--text-secondary);
+        }
+
+        .switcher-btn.active {
+            background: var(--q1-header);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .switcher-btn:hover:not(.active) {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+        }
+
+        .color-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .color-btn.active {
+            border-color: var(--text-primary);
+            transform: scale(1.1);
+        }
+
+        .color-btn.red { background: #dc2626; }
+        .color-btn.yellow { background: #ffeb3b; }
+        .color-btn.blue { background: #3498db; }
+
+        .task-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .task-list::-webkit-scrollbar-track {
+            background: var(--surface);
+            border-radius: 3px;
+        }
+
+        .task-list::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .task-list::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) and (orientation: portrait) {
+            .matrix {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, auto);
+                gap: 20px;
+                min-height: auto;
+            }
+            
+            .quadrant {
+                min-height: 250px;
+            }
+
+            .quadrant-header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .quadrant-title {
+                font-size: 1rem;
+            }
+
+            .delete-btn {
+                opacity: 1;
+            }
+
+            .theme-switchers {
+                top: 15px;
+                right: 15px;
+                scale: 0.9;
+            }
+
+            .install-banner.show ~ .container .theme-switchers {
+                top: 75px;
+            }
+            
+            .matrix-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .logo-text {
+                font-size: 2.2rem;
+            }
+
+            .top-header {
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .status-bar {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark" data-color="blue">
+    <div class="install-banner" id="installBanner">
+        <div class="install-banner-text">
+            <span>📱</span>
+            <span>Install Task.IT as an app for better experience</span>
+        </div>
+        <div class="install-banner-actions">
+            <button class="install-btn" id="installBtn">Install</button>
+            <button class="install-dismiss" id="installDismiss">×</button>
+        </div>
+    </div>
+
+    <div class="offline-indicator" id="offlineIndicator">
+        <span>📴 You're offline - tasks will sync when online</span>
+    </div>
+
+    <div class="container">
+        <div class="top-header">
+            <div class="matrix-logo">
+                <div class="logo-symbols">
+                    <div class="logo-symbol">✓</div>
+                    <div class="logo-symbol">→</div>
+                    <div class="logo-symbol">↓</div>
+                    <div class="logo-symbol">×</div>
+                </div>
+            </div>
+            <div class="logo-text">[TASK.IT.]</div>
+        </div>
+
+        <div class="daily-quote" id="dailyQuote">
+            Success is where preparation and opportunity meet. - Bobby Unser
+        </div>
+        
+        <div class="status-bar">
+            <div>✨ Working Offline — Tasks auto-saved</div>
+            <div>Last updated: <span id="lastUpdateTime">Never</span></div>
+        </div>
+
+        <div class="matrix-container">
+            <div class="matrix">
+                <div class="quadrant q1">
+                    <div class="quadrant-header">
+                        <div class="task-count" id="taskCount1">0</div>
+                        <div class="quadrant-info">
+                            <div class="quadrant-title">URGENT & IMPORTANT</div>
+                            <div class="quadrant-subtitle">DO FIRST</div>
+                        </div>
+                        <button class="clear-btn" onclick="clearQuadrant('q1')">Clear All</button>
+                    </div>
+                    <div class="task-container">
+                        <div class="task-list" id="taskList1" onclick="handleTaskListClick(event, 'q1')"></div>
+                    </div>
+                </div>
+
+                <div class="quadrant q2">
+                    <div class="quadrant-header">
+                        <div class="task-count" id="taskCount2">0</div>
+                        <div class="quadrant-info">
+                            <div class="quadrant-title">NOT URGENT & IMPORTANT</div>
+                            <div class="quadrant-subtitle">SCHEDULE</div>
+                        </div>
+                        <button class="clear-btn" onclick="clearQuadrant('q2')">Clear All</button>
+                    </div>
+                    <div class="task-container">
+                        <div class="task-list" id="taskList2" onclick="handleTaskListClick(event, 'q2')"></div>
+                    </div>
+                </div>
+
+                <div class="quadrant q3">
+                    <div class="quadrant-header">
+                        <div class="task-count" id="taskCount3">0</div>
+                        <div class="quadrant-info">
+                            <div class="quadrant-title">URGENT & NOT IMPORTANT</div>
+                            <div class="quadrant-subtitle">DELEGATE</div>
+                        </div>
+                        <button class="clear-btn" onclick="clearQuadrant('q3')">Clear All</button>
+                    </div>
+                    <div class="task-container">
+                        <div class="task-list" id="taskList3" onclick="handleTaskListClick(event, 'q3')"></div>
+                    </div>
+                </div>
+
+                <div class="quadrant q4">
+                    <div class="quadrant-header">
+                        <div class="task-count" id="taskCount4">0</div>
+                        <div class="quadrant-info">
+                            <div class="quadrant-title">NOT URGENT & NOT IMPORTANT</div>
+                            <div class="quadrant-subtitle">DELETE</div>
+                        </div>
+                        <button class="clear-btn" onclick="clearQuadrant('q4')">Clear All</button>
+                    </div>
+                    <div class="task-container">
+                        <div class="task-list" id="taskList4" onclick="handleTaskListClick(event, 'q4')"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            📱 Tasks saved locally • 📅 Quote changes daily • Click anywhere to add tasks
+        </div>
+
+        <div class="theme-switchers">
+            <div class="theme-switcher">
+                <button class="switcher-btn active" data-theme="dark" onclick="setTheme('dark')">☾ Dark</button>
+                <button class="switcher-btn" data-theme="light" onclick="setTheme('light')">☀ Light</button>
+            </div>
+
+            <div class="theme-switcher">
+                <button class="color-btn red" data-color="red" onclick="setColor('red')" title="Red Theme"></button>
+                <button class="color-btn yellow" data-color="yellow" onclick="setColor('yellow')" title="Yellow Theme"></button>
+                <button class="color-btn blue active" data-color="blue" onclick="setColor('blue')" title="Blue Theme"></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // NOTIFICATIONS SYSTEM
+        // ============================================
+
+        // Notification Manager
+        const NotificationManager = {
+            // Check if browser supports notifications
+            isSupported() {
+                return 'Notification' in window;
+            },
+
+            // Get current permission status
+            getPermission() {
+                if (!this.isSupported()) return 'denied';
+                return Notification.permission;
+            },
+
+            // Request permission from user
+            async requestPermission() {
+                if (!this.isSupported()) {
+                    console.warn('⚠️ Notifications not supported in this browser');
+                    return false;
+                }
+
+                if (Notification.permission === 'granted') {
+                    console.log('✅ Notifications already enabled');
+                    return true;
+                }
+
+                if (Notification.permission === 'denied') {
+                    console.warn('⚠️ Notifications blocked by user');
+                    return false;
+                }
+
+                try {
+                    const permission = await Notification.requestPermission();
+                    console.log('Notification permission:', permission);
+                    return permission === 'granted';
+                } catch (error) {
+                    console.error('Error requesting notification permission:', error);
+                    return false;
+                }
+            },
+
+            // Show a notification
+            async show(title, options = {}) {
+                if (!this.isSupported()) {
+                    console.warn('⚠️ Notifications not supported');
+                    return null;
+                }
+
+                if (Notification.permission !== 'granted') {
+                    console.log('ℹ️ Notification permission not granted');
+                    return null;
+                }
+
+                try {
+                    const notification = new Notification(title, {
+                        icon: './icon-192x192.png',
+                        badge: './icon-192x192.png',
+                        tag: options.tag || 'default',
+                        requireInteraction: options.requireInteraction || false,
+                        ...options
+                    });
+
+                    notification.addEventListener('click', () => {
+                        window.focus();
+                        notification.close();
+                    });
+
+                    return notification;
+                } catch (error) {
+                    console.error('Error showing notification:', error);
+                    return null;
+                }
+            },
+
+            // Show notification for task reminder
+            async taskReminder(taskText, quadrant) {
+                return this.show('📋 Task Reminder', {
+                    body: taskText.substring(0, 100),
+                    tag: `task-${quadrant}`,
+                    requireInteraction: true,
+                    data: { type: 'task-reminder' }
+                });
+            },
+
+            // Show notification for task completion
+            async taskCompleted(taskText) {
+                return this.show('✅ Task Completed!', {
+                    body: taskText.substring(0, 100),
+                    tag: 'task-completed',
+                    data: { type: 'task-completed' }
+                });
+            },
+
+            // Show notification for sync
+            async syncStatus(message, isSuccess = true) {
+                return this.show(isSuccess ? '✅ Sync Complete' : '⚠️ Sync Failed', {
+                    body: message,
+                    tag: 'sync-status'
+                });
+            }
+        };
+
+        // Enable notifications function
+        function enableNotifications() {
+            if (!NotificationManager.isSupported()) {
+                alert('⚠️ Your browser does not support notifications');
+                return;
+            }
+
+            NotificationManager.requestPermission().then(granted => {
+                if (granted) {
+                    NotificationManager.show('🎉 Task.IT Notifications', {
+                        body: 'Notifications enabled! You will receive task reminders.',
+                        tag: 'welcome'
+                    });
+                }
+            });
+        }
+
+        // ============================================
+        // END NOTIFICATIONS SYSTEM
+        // ============================================
+
+
+        // PWA Installation and Service Worker
+        let deferredPrompt;
+        let isInstalled = false;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('PWA install prompt available');
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallBanner();
+        });
+
+        function showInstallBanner() {
+            const banner = document.getElementById('installBanner');
+            const dismissedDate = localStorage.getItem('taskitInstallDismissed');
+            
+            if (dismissedDate) {
+                const daysSinceDismissed = (Date.now() - parseInt(dismissedDate)) / (1000 * 60 * 60 * 24);
+                if (daysSinceDismissed < 7) return;
+            }
+            
+            banner.classList.add('show');
+        }
+
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('PWA installed successfully');
+                isInstalled = true;
+            }
+            
+            deferredPrompt = null;
+            hideInstallBanner();
+        });
+
+        document.getElementById('installDismiss').addEventListener('click', () => {
+            localStorage.setItem('taskitInstallDismissed', Date.now().toString());
+            hideInstallBanner();
+        });
+
+        function hideInstallBanner() {
+            document.getElementById('installBanner').classList.remove('show');
+        }
+
+        window.addEventListener('appinstalled', () => {
+            console.log('Task.IT installed as PWA');
+            isInstalled = true;
+            hideInstallBanner();
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('./sw.js');
+                    console.log('Service Worker registered:', registration);
+                    
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed') {
+                                console.log('New version available');
+                            }
+                        });
+                    });
+                } catch (error) {
+                    console.error('Service Worker registration failed:', error);
+                }
+            });
+        }
+
+        // Network status handling
+        let isOnline = navigator.onLine;
+        const offlineIndicator = document.getElementById('offlineIndicator');
+
+        function updateOnlineStatus() {
+            if (navigator.onLine) {
+                if (!isOnline) {
+                    console.log('Back online - syncing tasks...');
+                    offlineIndicator.classList.remove('show');
+                    if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+                        navigator.serviceWorker.ready.then(registration => {
+                            return registration.sync.register('task-sync');
+                        }).catch(err => console.log('Background sync failed:', err));
+                    }
+                }
+                isOnline = true;
+            } else {
+                if (isOnline) {
+                    console.log('Gone offline');
+                    offlineIndicator.classList.add('show');
+                }
+                isOnline = false;
+            }
+        }
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data && event.data.type === 'SYNC_TASKS') {
+                    console.log('Received sync message:', event.data.message);
+                    TaskTracker.saveTasks();
+                }
+            });
+        }
+
+        // Daily quotes database
+        const DAILY_QUOTES = [
+            "Success is the sum of small efforts, repeated day in and day out. - Robert Collier",
+            "Discipline is the bridge between goals and accomplishment. - Jim Rohn", 
+            "We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Aristotle",
+            "The successful warrior is the average person with laser-like focus. - Bruce Lee",
+            "Consistency is the mother of mastery. - Robin Sharma",
+            "Small disciplines repeated with consistency every day lead to great achievements. - John C. Maxwell",
+            "Success isn't always about greatness. It's about consistency. Consistent hard work leads to success. - Dwayne Johnson",
+            "It's not what we do once in a while that shapes our lives, but what we do consistently. - Tony Robbins",
+            "Motivation gets you started, but discipline keeps you going. - John C. Maxwell",
+            "The pain of discipline weighs ounces, but the pain of regret weighs tons. - Jim Rohn",
+            "Discipline is choosing between what you want now and what you want most. - Abraham Lincoln",
+            "Success is a matter of understanding and religiously practicing specific, simple habits. - Robert J. Ringer",
+            "Champions are made when nobody's watching. - Unknown",
+            "The groundwork for all happiness is good health. - Leigh Hunt",
+            "Excellence is a continuous process and not an accident. - A.P.J. Abdul Kalam",
+            "Success is where preparation and opportunity meet. - Bobby Unser",
+            "The secret of getting ahead is getting started. - Mark Twain",
+            "Don't put off tomorrow what you can do today. - Benjamin Franklin",
+            "A goal is a dream with a deadline. - Napoleon Hill",
+            "The way to get started is to quit talking and begin doing. - Walt Disney",
+            "Time is what we want most, but what we use worst. - William Penn",
+            "Yesterday's home runs don't win today's games. - Babe Ruth",
+            "The future depends on what you do today. - Mahatma Gandhi",
+            "Success is the progressive realization of a worthy goal or ideal. - Earl Nightingale",
+            "If you want to achieve greatness, stop asking for permission. - Unknown",
+            "The only impossible journey is the one you never begin. - Tony Robbins",
+            "Believe you can and you're halfway there. - Theodore Roosevelt",
+            "Focus on being productive instead of busy. - Tim Ferriss",
+            "Success is walking from failure to failure with no loss of enthusiasm. - Winston Churchill",
+            "Your limitation—it's only your imagination. - Unknown"
+        ];
+
+        // Task Tracker Application with ENHANCED ERROR HANDLING
+        const TaskTracker = {
+            tasks: {
+                q1: [],
+                q2: [],
+                q3: [],
+                q4: []
+            },
+            currentTheme: 'dark',
+            currentColor: 'blue',
+
+            init() {
+                this.loadPreferences();
+                this.loadTasks();
+                this.renderAllTasks();
+                this.updateDailyQuote();
+                this.updateLastUpdateTime();
+                this.updateAllTaskCounts();
+                this.applyTheme();
+                
+                setInterval(() => {
+                    this.saveTasks();
+                    this.updateLastUpdateTime();
+                }, 30000);
+                
+                window.addEventListener('beforeunload', () => {
+                    this.saveTasks();
+                });
+
+                updateOnlineStatus();
+            },
+
+            loadPreferences() {
+                this.currentTheme = localStorage.getItem('tasktracker_theme') || 'dark';
+                this.currentColor = localStorage.getItem('tasktracker_color') || 'blue';
+            },
+
+            savePreferences() {
+                localStorage.setItem('tasktracker_theme', this.currentTheme);
+                localStorage.setItem('tasktracker_color', this.currentColor);
+            },
+
+            applyTheme() {
+                document.body.setAttribute('data-theme', this.currentTheme);
+                document.body.setAttribute('data-color', this.currentColor);
+                
+                document.querySelectorAll('.switcher-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-theme') === this.currentTheme) {
+                        btn.classList.add('active');
+                    }
+                });
+
+                document.querySelectorAll('.color-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-color') === this.currentColor) {
+                        btn.classList.add('active');
+                    }
+                });
+            },
+
+            updateDailyQuote() {
+                const today = new Date();
+                const dayOfMonth = today.getDate();
+                const quoteIndex = (dayOfMonth - 1) % DAILY_QUOTES.length;
+                document.getElementById('dailyQuote').textContent = DAILY_QUOTES[quoteIndex];
+            },
+
+            updateLastUpdateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleString();
+                document.getElementById('lastUpdateTime').textContent = timeString;
+            },
+
+            updateTaskCount(quadrantId) {
+                const quadrantNumber = quadrantId.slice(-1);
+                const count = this.tasks[quadrantId].filter(task => task.text.trim() !== '').length;
+                document.getElementById(`taskCount${quadrantNumber}`).textContent = count;
+            },
+
+            updateAllTaskCounts() {
+                Object.keys(this.tasks).forEach(quadrantId => {
+                    this.updateTaskCount(quadrantId);
+                });
+            },
+
+            generateTaskId() {
+                return 'task_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            },
+
+            addNewTask(quadrantId) {
+                // Check if last task is empty - if so, focus it instead of creating new one
+                const lastTask = this.tasks[quadrantId][this.tasks[quadrantId].length - 1];
+                if (lastTask && lastTask.text.trim() === '') {
+                    // Focus on existing empty task instead of creating duplicate
+                    setTimeout(() => {
+                        const taskList = document.getElementById(`taskList${quadrantId.slice(-1)}`);
+                        const lastTaskItem = taskList.lastElementChild;
+                        if (lastTaskItem) {
+                            const textarea = lastTaskItem.querySelector('.task-text');
+                            if (textarea) {
+                                textarea.focus();
+                            }
+                        }
+                    }, 100);
+                    return;
+                }
+
+                const newTask = {
+                    id: this.generateTaskId(),
+                    text: '',
+                    completed: false,
+                    createdAt: new Date().toISOString(),
+                    syncStatus: isOnline ? 'synced' : 'pending'
+                };
+                
+                this.tasks[quadrantId].push(newTask);
+                this.renderQuadrant(quadrantId);
+                this.updateTaskCount(quadrantId);
+                this.saveTasks();
+                
+                setTimeout(() => {
+                    const taskList = document.getElementById(`taskList${quadrantId.slice(-1)}`);
+                    const lastTaskItem = taskList.lastElementChild;
+                    if (lastTaskItem) {
+                        const textarea = lastTaskItem.querySelector('.task-text');
+                        if (textarea) {
+                            textarea.focus();
+                        }
+                    }
+                }, 100);
+            },
+
+            renderQuadrant(quadrantId) {
+                const quadrantNumber = quadrantId.slice(-1);
+                const taskList = document.getElementById(`taskList${quadrantNumber}`);
+                
+                taskList.innerHTML = '';
+                
+                if (this.tasks[quadrantId].length === 0) {
+                    this.addNewTask(quadrantId);
+                    return;
+                }
+                
+                this.tasks[quadrantId].forEach((task, index) => {
+                    const taskElement = this.createTaskElement(quadrantId, task, index);
+                    taskList.appendChild(taskElement);
+                });
+            },
+
+            createTaskElement(quadrantId, task, index) {
+                const taskItem = document.createElement('div');
+                const hasContent = task.text.trim() !== '';
+                
+                taskItem.className = hasContent ? 'task-item' : 'task-item empty-task';
+                
+                if (hasContent) {
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.className = 'task-checkbox';
+                    checkbox.checked = task.completed;
+                    checkbox.addEventListener('change', () => {
+                        this.toggleTaskCompletion(quadrantId, index);
+                    });
+                    taskItem.appendChild(checkbox);
+                }
+                
+                const taskContent = document.createElement('div');
+                taskContent.className = hasContent ? 'task-content has-delete' : 'task-content';
+                
+                const textarea = document.createElement('textarea');
+                textarea.className = `task-text ${task.completed && hasContent ? 'completed' : ''}`;
+                textarea.value = task.text;
+                textarea.placeholder = 'Enter your task here...';
+                
+                textarea.addEventListener('input', (e) => {
+                    this.updateTaskText(quadrantId, index, e.target.value);
+                    this.autoResize(e.target);
+                    this.updateTaskCount(quadrantId);
+                });
+                
+                textarea.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.addNewTask(quadrantId);
+                    }
+                    if (e.key === 'Backspace' && e.target.value === '' && this.tasks[quadrantId].length > 1) {
+                        this.deleteTask(quadrantId, index);
+                        e.preventDefault();
+                    }
+                });
+                
+                taskContent.appendChild(textarea);
+                taskItem.appendChild(taskContent);
+                
+                if (hasContent) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.innerHTML = '×';
+                    deleteBtn.title = 'Delete this task';
+                    deleteBtn.addEventListener('click', () => {
+                        this.deleteTask(quadrantId, index);
+                    });
+                    taskItem.appendChild(deleteBtn);
+                }
+                
+                setTimeout(() => this.autoResize(textarea), 10);
+                
+                return taskItem;
+            },
+
+            autoResize(textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+            },
+
+            toggleTaskCompletion(quadrantId, index) {
+                this.tasks[quadrantId][index].completed = !this.tasks[quadrantId][index].completed;
+                this.tasks[quadrantId][index].syncStatus = isOnline ? 'synced' : 'pending';
+                this.renderQuadrant(quadrantId);
+                this.updateTaskCount(quadrantId);
+                this.saveTasks();
+            },
+
+            updateTaskText(quadrantId, index, text) {
+                this.tasks[quadrantId][index].text = text;
+                this.tasks[quadrantId][index].syncStatus = isOnline ? 'synced' : 'pending';
+                this.saveTasks();
+            },
+
+            deleteTask(quadrantId, index) {
+                this.tasks[quadrantId].splice(index, 1);
+                
+                if (this.tasks[quadrantId].length === 0) {
+                    this.addNewTask(quadrantId);
+                } else {
+                    this.renderQuadrant(quadrantId);
+                    this.updateTaskCount(quadrantId);
+                    this.saveTasks();
+                }
+            },
+
+            renderAllTasks() {
+                Object.keys(this.tasks).forEach(quadrantId => {
+                    this.renderQuadrant(quadrantId);
+                });
+            },
+
+            clearQuadrant(quadrantId) {
+                if (confirm(`Clear all tasks in this quadrant?`)) {
+                    this.tasks[quadrantId] = [];
+                    this.renderQuadrant(quadrantId);
+                    this.updateTaskCount(quadrantId);
+                    this.saveTasks();
+                }
+            },
+
+            // ENHANCED saveTasks with error handling
+            saveTasks() {
+                try {
+                    const tasksWithMeta = {
+                        ...this.tasks,
+                        lastSaved: new Date().toISOString(),
+                        version: 'V.01',
+                        deviceId: this.getDeviceId()
+                    };
+                    
+                    localStorage.setItem('tasktracker_aesthetic_tasks', JSON.stringify(tasksWithMeta));
+                    console.log('✅ Tasks saved successfully at', new Date().toLocaleTimeString());
+                    
+                    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                        navigator.serviceWorker.controller.postMessage({
+                            type: 'CACHE_TASK_DATA',
+                            data: tasksWithMeta
+                        });
+                    }
+                } catch (error) {
+                    console.error('❌ Error saving tasks to localStorage:', error);
+                    console.error('This could be due to:');
+                    console.error('- Browser in Private/Incognito mode');
+                    console.error('- localStorage quota exceeded');
+                    console.error('- Browser security settings blocking storage');
+                    alert('Warning: Unable to save tasks. Check browser console for details.');
+                }
+            },
+
+            // ENHANCED loadTasks with validation
+            loadTasks() {
+                try {
+                    const saved = localStorage.getItem('tasktracker_aesthetic_tasks');
+                    
+                    if (saved) {
+                        const parsedData = JSON.parse(saved);
+                        
+                        // Validate data structure
+                        if (parsedData && typeof parsedData === 'object') {
+                            this.tasks = {
+                                q1: Array.isArray(parsedData.q1) ? parsedData.q1 : [],
+                                q2: Array.isArray(parsedData.q2) ? parsedData.q2 : [],
+                                q3: Array.isArray(parsedData.q3) ? parsedData.q3 : [],
+                                q4: Array.isArray(parsedData.q4) ? parsedData.q4 : []
+                            };
+                            console.log('✅ Tasks loaded successfully from localStorage');
+                        } else {
+                            console.warn('⚠️ Invalid data format in localStorage, using empty state');
+                        }
+                    } else {
+                        console.log('ℹ️ No saved tasks found, starting fresh');
+                    }
+                } catch (error) {
+                    console.error('❌ Error loading tasks from localStorage:', error);
+                    console.error('Data might be corrupted. Starting with empty state.');
+                }
+                
+                // Ensure each quadrant has at least one empty task
+                Object.keys(this.tasks).forEach(quadrantId => {
+                    if (this.tasks[quadrantId].length === 0) {
+                        this.tasks[quadrantId] = [{ 
+                            id: this.generateTaskId(), 
+                            text: '', 
+                            completed: false,
+                            createdAt: new Date().toISOString(),
+                            syncStatus: 'synced'
+                        }];
+                    }
+                });
+            },
+
+            getDeviceId() {
+                let deviceId = localStorage.getItem('taskit_device_id');
+                if (!deviceId) {
+                    deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    localStorage.setItem('taskit_device_id', deviceId);
+                }
+                return deviceId;
+            }
+        };
+
+        // FIXED: Handle clicking on task list to add new task (only in empty space below last task)
+        function handleTaskListClick(event, quadrantId) {
+            // Only add new task if clicking truly on empty space below existing tasks
+            if (event.target.classList.contains('task-list')) {
+                const taskList = event.target;
+                const lastTask = taskList.lastElementChild;
+                
+                if (lastTask) {
+                    const lastRect = lastTask.getBoundingClientRect();
+                    // Only add if click is below the last task
+                    if (event.clientY > lastRect.bottom) {
+                        TaskTracker.addNewTask(quadrantId);
+                    }
+                } else {
+                    // No tasks exist, add one
+                    TaskTracker.addNewTask(quadrantId);
+                }
+            }
+        }
+
+        // Theme functions
+        function setTheme(theme) {
+            TaskTracker.currentTheme = theme;
+            TaskTracker.applyTheme();
+            TaskTracker.savePreferences();
+        }
+
+        function setColor(color) {
+            TaskTracker.currentColor = color;
+            TaskTracker.applyTheme();
+            TaskTracker.savePreferences();
+        }
+
+        function clearQuadrant(quadrantId) {
+            TaskTracker.clearQuadrant(quadrantId);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            TaskTracker.init();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                TaskTracker.saveTasks();
+                TaskTracker.updateLastUpdateTime();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                if (deferredPrompt) {
+                    document.getElementById('installBtn').click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
